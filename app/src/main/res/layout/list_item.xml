@@ -19,7 +19,7 @@
         android:id="@+id/button2"
         android:layout_width="49dp"
         android:layout_height="39dp"
-        android:text="x"
+        android:text="I"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView"
