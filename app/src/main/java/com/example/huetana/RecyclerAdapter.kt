@@ -23,8 +23,9 @@ class RecyclerAdapter(
         // обработчик нажатия кнопки
 
         holder.button.setOnClickListener {
-            if (holder.adapterPosition !=-1)
-            onItemClick(holder.adapterPosition)
+            if (holder.adapterPosition !=-1) {
+                onItemClick(holder.adapterPosition)
+            }
         }
     }
 
