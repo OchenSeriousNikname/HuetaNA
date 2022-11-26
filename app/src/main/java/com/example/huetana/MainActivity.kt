@@ -1,5 +1,6 @@
 package com.example.huetana
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
@@ -17,6 +18,18 @@ class MainActivity : AppCompatActivity() {
     private val list = mutableListOf<Todo>()
     private lateinit var adapter: RecyclerAdapter
     val dbHelper = DBHelper(this)
+
+    val REQUEST_CODE = 1
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // получение данных от Activity2
+            val result = data?.getStringExtra(SecondActivity.RESULT_KEY)
+            // в result лежит строка "тут какой-то результат (строка)"
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,12 +39,13 @@ class MainActivity : AppCompatActivity() {
 
         adapter = RecyclerAdapter(list) {
 
-         /*   dbHelper.remove( list[it].id)
-            list.removeAt(it)
-            adapter.notifyItemRemoved(it) */
+            /*   dbHelper.remove( list[it].id)
+               list.removeAt(it)
+               adapter.notifyItemRemoved(it) */
 
-                val intent = Intent(this, Information::class.java)
-                startActivity(intent)
+            val intent = Intent(this, Information::class.java)
+            intent.putExtra("id", list[it].id)
+            startActivityForResult(intent, REQUEST_CODE)
 
         }
 
@@ -46,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             list.add(Todo(id, title))
             adapter.notifyItemInserted(list.lastIndex) */
             val intent = Intent(this, Settings::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, REQUEST_CODE)
         }
     }
 }

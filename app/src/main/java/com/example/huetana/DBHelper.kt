@@ -80,4 +80,20 @@ class DBHelper(context: Context?) :
         database.delete(TABLE_NAME, null, null)
         close()
     }
+    fun getById(id: Long): Todo? {
+        var result: Todo? = null
+        val database = this.writableDatabase
+        val cursor: Cursor = database.query(
+            TABLE_NAME, null, "$KEY_ID = ?", arrayOf(id.toString()),
+            null, null, null
+        )
+        if (cursor.moveToFirst()) {
+            val idIndex: Int = cursor.getColumnIndex(KEY_ID)
+            val titleIndex: Int = cursor.getColumnIndex(KEY_TITLE)
+            val isDoneIndex: Int = cursor.getColumnIndex(KEY_IS_DONE)
+            result = Todo(
+                cursor.getLong(idIndex),
+                cursor.getString(titleIndex),
+                cursor.getInt(isDoneIndex) == 1
+            )
 }

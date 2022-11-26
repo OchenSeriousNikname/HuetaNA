@@ -30,6 +30,8 @@ class Settings : AppCompatActivity() {
             val id = dbHelper.add(title)
             list.add(Todo(id, title))
             adapter.notifyItemInserted(list.lastIndex)
+            val intent = Intent(this, Information::class.java)
+            startActivity(intent)
         }
     }
 }
