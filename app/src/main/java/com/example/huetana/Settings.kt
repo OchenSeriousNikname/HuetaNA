@@ -30,7 +30,7 @@ class Settings : AppCompatActivity() {
             val surname = editText2.text.toString()
             val dr = editText3.text.toString()
             val number = editText4.text.toString()
-            val id = dbHelper.add(title)
+            val id = dbHelper.add(title, surname, dr, number)
             list.add(Todo(id, title, surname, dr, number))
             adapter.notifyItemInserted(list.lastIndex)
             val intent = Intent(this, Information::class.java)
