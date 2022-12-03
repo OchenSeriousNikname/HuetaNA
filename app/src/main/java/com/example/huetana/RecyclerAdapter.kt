@@ -36,7 +36,7 @@ class RecyclerAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView = itemView.findViewById<TextView>(R.id.textView)
         // находим кнопку
-        val button = itemView.findViewById<Button>(R.id.button2)
+        val button = itemView.findViewById<Button>(R.id.inf)
     }
 }
 

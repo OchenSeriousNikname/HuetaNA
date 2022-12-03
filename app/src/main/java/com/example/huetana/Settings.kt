@@ -27,8 +27,11 @@ class Settings : AppCompatActivity() {
         val buttonSave = findViewById<Button>(R.id.buttonSave)
         buttonSave.setOnClickListener {
             val title = editText1.text.toString()
+            val surname = editText2.text.toString()
+            val dr = editText3.text.toString()
+            val number = editText4.text.toString()
             val id = dbHelper.add(title)
-            list.add(Todo(id, title))
+            list.add(Todo(id, title, surname, dr, number))
             adapter.notifyItemInserted(list.lastIndex)
             val intent = Intent(this, Information::class.java)
             startActivity(intent)

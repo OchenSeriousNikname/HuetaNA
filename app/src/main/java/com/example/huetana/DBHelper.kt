@@ -15,13 +15,19 @@ class DBHelper(context: Context?) :
         const val TABLE_NAME = "todos"
         const val KEY_ID = "id"
         const val KEY_TITLE = "title"
+        const val KEY_SURNAME = "surname"
+        const val KEY_DR = "dr"
+        const val KEY_NUMBER = "number"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
             CREATE TABLE $TABLE_NAME (
                 $KEY_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                $KEY_TITLE TEXT NOT NULL
+                $KEY_TITLE TEXT NOT NULL,
+                $KEY_SURNAME TEXT NOT NULL,
+                $KEY_DR TEXT NOT NULL,
+                $KEY_NUMBER TEXT NOT NULL
             )""")
     }
 
@@ -40,10 +46,16 @@ class DBHelper(context: Context?) :
         if (cursor.moveToFirst()) {
             val idIndex: Int = cursor.getColumnIndex(KEY_ID)
             val titleIndex: Int = cursor.getColumnIndex(KEY_TITLE)
+            val surnameIndex: Int = cursor.getColumnIndex(KEY_SURNAME)
+            val drIndex: Int = cursor.getColumnIndex(KEY_DR)
+            val numberIndex: Int = cursor.getColumnIndex(KEY_NUMBER)
             do {
                 val todo = Todo(
                     cursor.getLong(idIndex),
-                    cursor.getString(titleIndex)
+                    cursor.getString(titleIndex),
+                    cursor.getString(surnameIndex),
+                    cursor.getString(drIndex),
+                    cursor.getString(numberIndex)
                 )
                 result.add(todo)
             } while (cursor.moveToNext())
@@ -52,10 +64,13 @@ class DBHelper(context: Context?) :
         return result
     }
 
-    fun add(title: String): Long {
+    fun add(title: String, surname: String, dr: String, number: String): Long {
         val database = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_TITLE, title)
+        contentValues.put(KEY_SURNAME, surname)
+        contentValues.put(KEY_DR, dr)
+        contentValues.put(KEY_NUMBER, number)
         val id = database.insert(TABLE_NAME, null, contentValues)
         close()
         return id
@@ -90,10 +105,19 @@ class DBHelper(context: Context?) :
         if (cursor.moveToFirst()) {
             val idIndex: Int = cursor.getColumnIndex(KEY_ID)
             val titleIndex: Int = cursor.getColumnIndex(KEY_TITLE)
-            val isDoneIndex: Int = cursor.getColumnIndex(KEY_IS_DONE)
+            val surnameIndex: Int = cursor.getColumnIndex(KEY_SURNAME)
+            val drIndex: Int = cursor.getColumnIndex(KEY_DR)
+            val numberIndex: Int = cursor.getColumnIndex(KEY_NUMBER)
+
             result = Todo(
                 cursor.getLong(idIndex),
                 cursor.getString(titleIndex),
-                cursor.getInt(isDoneIndex) == 1
+                cursor.getString(surnameIndex),
+                cursor.getString(drIndex),
+                cursor.getString(numberIndex)
             )
+        }
+        cursor.close()
+        return result
+    }
 }
